@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet id="2023-01-17-create-user-table-import-1" author="emelianov-aa">
+        <createTable tableName="user">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="id_sec_user" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_ts" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="full_name" type="varchar" remarks="Полное ФИО">
+                <constraints nullable="false"/>
+            </column>
+            <column name="birth_date" type="date" remarks="Дата рождения">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone_number" type="varchar" remarks="Номер телефона"/>
+            <column name="address" type="varchar" remarks="Адрес проживания"/>
+        </createTable>
+        <rollback>
+            <dropTable tableName="user"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2023-01-17-create-user-table-import-2" author="emelianov-aa">
+        <addForeignKeyConstraint baseTableName="user"
+                                 baseColumnNames="id_sec_user"
+                                 constraintName="fk_user_1"
+                                 referencedTableName="sec_user"
+                                 referencedColumnNames="id"/>
+        <rollback>
+            <dropForeignKeyConstraint baseTableName="user" constraintName="fk_user_1"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet id="2023-01-17-create-user-table-import-3" author="emelianov-aa">
+        <createIndex tableName="user" indexName="idx_user_1">
+            <column name="id_sec_user"/>
+        </createIndex>
+        <rollback>
+            <dropIndex tableName="user" indexName="idx_user_1"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
