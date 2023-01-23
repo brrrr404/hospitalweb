@@ -2,18 +2,20 @@ package hospital_web.entity.common;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import java.util.Date;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @MappedSuperclass
 @Setter
 @Getter
-public class BaseEntityWithArchive extends BaseEntity {
+public abstract class BaseEntityWithArchive extends BaseEntity {
 
-    @Column(name = "archive_ts", nullable = false)
+    @Column(name = "archive_ts")
     @Temporal(TemporalType.TIMESTAMP)
     protected Date archiveTs;
 }

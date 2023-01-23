@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -18,8 +20,8 @@ import java.util.Date;
 @Setter
 public class User extends BaseEntity {
 
-    @OneToOne(targetEntity = SecUser.class, fetch = FetchType.LAZY)
-    @Column(name = "id_sec_user")
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_sec_user")
     private SecUser secUser;
 
     @Column(name = "full_name")
@@ -33,4 +35,10 @@ public class User extends BaseEntity {
 
     @Column(name = "address")
     private String address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Record> recordList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Treatment> treatmentList = new ArrayList<>();
 }

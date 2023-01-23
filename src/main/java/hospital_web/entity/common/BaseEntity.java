@@ -10,8 +10,7 @@ import java.util.Date;
 @MappedSuperclass
 @Setter
 @Getter
-@Entity
-public class BaseEntity {
+public abstract class BaseEntity {
 
     @Id
     @Column(name = "id", updatable = false, nullable = false)
@@ -21,5 +20,10 @@ public class BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "create_ts", nullable = false)
     protected Date createTs;
+
+    @PrePersist
+    protected void onCreate() {
+        createTs = new Date();
+    }
 
 }
